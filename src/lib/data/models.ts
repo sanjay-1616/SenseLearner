@@ -52,6 +52,7 @@ export type QuestionType =
 export type LearningMode = 'visual' | 'audio' | 'text' | 'interactive' | 'multisensory';
 
 export type EventType =
+  | 'assessment_completed'
   | 'activity_started'
   | 'question_viewed'
   | 'answer_submitted'
@@ -226,11 +227,36 @@ export interface AssessmentResponse {
   responseTimeMs: number;
   attemptNumber: number;
   hintUsed: boolean;
+  answerChanges: number;
+  revisited: boolean;
   skipped: boolean;
   domainId: string;
   skillId: string;
   difficulty: Difficulty;
   timestamp: string;
+}
+
+export interface CameraConsent {
+  id: string;
+  learnerId: string;
+  assessmentId: string;
+  granted: boolean;
+  grantedAt: string;
+  snapshotCollectionEnabled: boolean;
+}
+
+export interface AssessmentSnapshot {
+  id: string;
+  learnerId: string;
+  assessmentId: string;
+  questionId?: string;
+  timestamp: string;
+  questionState: 'assessment_started' | 'question_viewed' | 'question_completed' | 'assessment_completed';
+  responseTimeMs?: number;
+  attemptNumber?: number;
+  cameraConsent: boolean;
+  interactionEvent: EventType;
+  imageData: string;
 }
 
 export interface LearningSession {
